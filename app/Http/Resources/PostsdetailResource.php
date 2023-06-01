@@ -18,6 +18,7 @@ class PostsdetailResource extends JsonResource
         return [
             'id'=>$this->id,
             'judul'=>$this->judul,
+            'image' => $this->image,
             'deskripsi'=>$this->deskripsi,
             'penjual'=>$this->seller['Username'],
             'harga'=>$this->harga,

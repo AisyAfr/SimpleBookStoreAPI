@@ -13,9 +13,10 @@ use PHPUnit\Framework\MockObject\Stub\ReturnValueMap;
 class PostsController extends Controller
 {
 
-    public function __construct(){
-        $this->middleware(['auth:sanctum'])->only(['store','update','destroy']);
-        $this->middleware(['penjual'])->only('update','destroy');
+    public function __construct()
+    {
+        $this->middleware(['auth:sanctum'])->only(['store', 'update', 'destroy']);
+        $this->middleware(['penjual'])->only('update', 'destroy');
     }
     /**
      * Display a listing of the resource.
@@ -27,12 +28,21 @@ class PostsController extends Controller
         return PostsResource::collection($posts);
     }
 
+    function generateRandomString($length = 20)
+    {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $charactersLength = strlen($characters);
+        $randomString = '';
+        for ($i = 0; $i < $length; $i++) {
+            $randomString .= $characters[random_int(0, $charactersLength - 1)];
+        }
+        return $randomString;
+    }
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-
     }
 
     /**
@@ -41,20 +51,36 @@ class PostsController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'judul'=>'required',
-            'deskripsi'=>'required',
-            'harga'=>'required'
+            'judul' => 'required',
+            'deskripsi' => 'required',
+            'harga' => 'required'
         ]);
 
+        if ($request->file) {
 
+            $validated = $request->validate([
+                'file' => 'mimes:jpg,jpeg,png|max:100000'
+            ]);
+
+            $filename = $this->generateRandomString();
+            $extension = $request->file->extension();
+
+            $path = Storage::putFileAs('image', $request->file, $filename . '.' . $extension);
+            $request['image'] = $filename . '.' . $extension;
+            $request['penjual'] = Auth::user()->id;
+            $post = Posts::create($request->all());
+        }
+        
+        $request['image'] = $filename.'.'.$extension;
         $request['penjual'] = Auth::user()->id;
         $post = Posts::create($request->all());
 
         $post = Posts::create([
-            'judul' => $request -> input('judul'),
-            'deskripsi' => $request -> input('deskripsi'),
+            'judul' => $request->input('judul'),
+            'image' => $request->input('image'),
+            'deskripsi' => $request->input('deskripsi'),
             'penjual' => Auth::user()->id,
-            'harga' => $request -> input('harga')
+            'harga' => $request->input('harga')
         ]);
 
         return new PostsDetailResource($post);
@@ -69,6 +95,7 @@ class PostsController extends Controller
         return new PostsDetailResource($posts);
     }
 
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -82,7 +109,7 @@ class PostsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request -> validate([
+        $request->validate([
             'judul' => 'string',
             'deskripsi' => 'string',
             'harga' => 'string'
