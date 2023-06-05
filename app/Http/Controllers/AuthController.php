@@ -70,5 +70,6 @@ class AuthController extends Controller
     public function profile($id){
         $profil = User::findOrFail($id);
         return new ProfileResource($profil);
+        
     }
 }

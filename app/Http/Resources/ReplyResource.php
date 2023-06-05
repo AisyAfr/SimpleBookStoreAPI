@@ -19,6 +19,7 @@ class ReplyResource extends JsonResource
     {
         return [
             'id' => $this->id,
+            'replier' => $this->user['Username'],
             'comment_id' => $this->comment_id,
             'konfirmasi' => $this->konfirmasi,
             'created_at' => date_format($this->created_at, 'Y/m/d H:i')

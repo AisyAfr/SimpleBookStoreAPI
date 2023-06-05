@@ -23,7 +23,8 @@ class PostsdetailResource extends JsonResource
             'penjual'=>$this->seller['Username'],
             'harga'=>$this->harga,
             'created at'=> date_format($this->created_at,'Y/m/d H:i'),
-            'comments' => CommentsResource::collection($this->comments),
+            'total-komentar' => CommentsResource::collection($this->comments)->count(),
+            'comments'=>CommentsResource::collection($this->comments),
             'reply'=> ReplyResource::collection($this->replies),
             'created at'=> date_format($this->created_at,'Y/m/d H:i'),
         ];
