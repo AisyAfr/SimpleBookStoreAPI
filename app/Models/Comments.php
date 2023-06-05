@@ -32,10 +32,12 @@ public function commentator(): BelongsTo
  *
  * @return \Illuminate\Database\Eloquent\Relations\HasOne
  */
-public function user(): HasMany
-{
-    return $this->replies(Comments::class, 'parent_id');
-}
+// public function user(): HasMany
+// {
+//     return $this->replies(Comments::class, 'parent_id');
+// }
+
+
 
 
 }
