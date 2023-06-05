@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProfileResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -61,8 +62,13 @@ class AuthController extends Controller
             'password' => Hash::make($request->input('password'))
         ]);
 
-        return response()->json()([
+        return response()->json([
             'message' => 'kamu berhasil register!'
         ]);
+    }
+
+    public function profile($id){
+        $profil = User::findOrFail($id);
+        return new ProfileResource($profil);
     }
 }

@@ -28,6 +28,7 @@ Route::post('/posts', [PostsController::class, 'store']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout']);
+Route::get('/profile/{id}', [AuthController::class, 'profile']);
 
 Route::post('/comment', [CommentsController::class, 'store']);
 Route::patch('/comment/{id}', [CommentsController::class, 'update']);
