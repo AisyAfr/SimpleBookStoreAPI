@@ -25,6 +25,7 @@ Route::patch('/posts/{id}', [PostsController::class, 'update']);
 Route::delete('/posts/{id}', [PostsController::class, 'destroy']);
 Route::post('/posts', [PostsController::class, 'store']);
 
+Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/logout', [AuthController::class, 'logout']);
 

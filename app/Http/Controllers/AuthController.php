@@ -43,4 +43,26 @@ class AuthController extends Controller
             ]);
         }
     }
+
+    public function register(Request $request){
+        $request->validate([
+            'email' => 'required|email|unique:users',
+            'username' => 'required|min:2|max:25',
+            'firstname' => 'required|min:2|max:25',
+            'lastname' => 'required|min:2|max:25',
+            'password' => 'required|min:1|max:20',
+        ]);
+
+        User::create([
+            'email' => $request->input('email'),
+            'username' => $request->input('username'),
+            'firstname' => $request->input('firstname'),
+            'lastname' => $request->input('lastname'),
+            'password' => Hash::make($request->input('password'))
+        ]);
+
+        return response()->json()([
+            'message' => 'kamu berhasil register!'
+        ]);
+    }
 }

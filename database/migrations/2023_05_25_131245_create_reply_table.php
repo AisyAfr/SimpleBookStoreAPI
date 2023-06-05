@@ -20,9 +20,9 @@ return new class extends Migration
             $table->text('konfirmasi');
             $table->timestamps();
 
-            $table->foreign('user_id')->references('id')->on('user');
-            $table->foreign('post_id')->references('id')->on('posts');
-            $table->foreign('comment_id')->references('id')->on('comments');
+            // $table->foreign('user_id')->references('id')->on('user');
+            // $table->foreign('post_id')->references('id')->on('posts');
+            // $table->foreign('comment_id')->references('id')->on('comments');
         });
     }
 
