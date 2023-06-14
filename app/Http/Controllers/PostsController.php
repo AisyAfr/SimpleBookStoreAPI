@@ -69,8 +69,11 @@ class PostsController extends Controller
             $request['image'] = $filename . '.' . $extension;
             $request['penjual'] = Auth::user()->id;
             $post = Posts::create($request->all());
+
+            $request['penjual'] = Auth::user()->id;
+            $post = Posts::create($request->all());
         }
-        $request['image'] = $filename.'.'.$extension;
+
         $request['penjual'] = Auth::user()->id;
         $post = Posts::create($request->all());
 
